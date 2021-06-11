@@ -5,11 +5,10 @@ var bodyParser = require('body-parser');
 var path = require('path');
 
 var connection = mysql.createConnection({
-	host     : '13.233.183.250',
-	port     :  '3306',
+	host     : 'localhost',
 	user     : 'root',
 	password : 'Dbpwd@123',
-	database : 'nodelogin'
+	database : 'nodelogin',
 });
 
 var app = express();
@@ -63,8 +62,6 @@ app.post('/addin', function(request, response) {
 			if (error) {
 				response.send(error);
 			} else {
-				request.session.newloggedin = true;
-				request.session.username = username;
 				response.redirect('/home');
 			}
 			response.end();
@@ -74,8 +71,6 @@ app.post('/addin', function(request, response) {
 
 app.get('/home', function(request, response) {
 	if (request.session.loggedin) {
-		response.send('Welcome back, ' + request.session.username + '!');
-	} else if (request.session.newloggedin) {
 		response.send('Welcome, ' + request.session.username + '!');
 	} else {
 		response.send('Please login to view this page!');
